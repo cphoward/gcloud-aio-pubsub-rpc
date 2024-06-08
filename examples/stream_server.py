@@ -19,7 +19,7 @@ app = typer.Typer()
 class RPCStreamServer(PubSubRPCServer):
     async def process_stream_message(
             self, message: SubscriberMessage) -> AsyncIterator[PubsubMessage]:
-        """The user-defined, per-message transform to apply to a message"""
+        """The user-defined, per-message stream transform to apply to a message"""
         data = message.data.decode()
         for index in range(1000):
             # Simulate something time consuming
@@ -42,14 +42,12 @@ async def _main(project_id: str,
     await manager.initialize()
     await manager.startup()
     try:
-        # await manager.producer
         await manager.producer
     except asyncio.CancelledError:
         pass
     except Exception:
         logger.exception('Exception caught on shutdown')
     finally:
-        # await manager.shutdown()
         await manager.cleanup()
 
 

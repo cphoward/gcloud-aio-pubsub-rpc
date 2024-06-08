@@ -1,10 +1,5 @@
-# import asyncio
-import unittest
 import pytest
-from pubsub_rpc.ordered_stream import AsyncOrderedStream
-
-
-# class TestAsyncOrderedStream(unittest.TestCase):
+from gcloud_aio_pubsub_rpc.ordered_stream import AsyncOrderedStream
 
 async def test_single_item():
     stream = AsyncOrderedStream()
@@ -41,7 +36,8 @@ async def test_items_out_of_order() -> None:
 async def test_wrong_sender() -> None:
     stream = AsyncOrderedStream()
     await stream.add('item1', 0, 'sender1')
-    await stream.add('item2', 1, 'sender2')
+    with pytest.raises(Exception):
+        await stream.add('item2', 1, 'sender2')
     result = await stream.__anext__()
     assert result == 'item1'
     await stream.signal_end_of_stream(1, 'sender1')
@@ -55,7 +51,8 @@ async def test_wrong_sender_with_eos_out_of_order() -> None:
     stream = AsyncOrderedStream()
     await stream.signal_end_of_stream(1, 'sender1')
     await stream.add('item1', 0, 'sender1')
-    await stream.add('item2', 1, 'sender2')
+    with pytest.raises(Exception):
+        await stream.add('item2', 1, 'sender2')
     result = await stream.__anext__()
     assert result == 'item1'
 
@@ -70,8 +67,3 @@ async def test_wrong_sender_with_eos_out_of_order() -> None:
     #         await stream.__anext__()
     #     end_time = asyncio.get_event_loop().time()
     #     self.assertTrue(end_time - start_time >= 1)
-
-
-# You can use this to run the tests from the command line
-if __name__ == '__main__':
-    unittest.main()

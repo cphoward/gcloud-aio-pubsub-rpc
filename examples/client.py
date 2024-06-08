@@ -20,10 +20,8 @@ async def _main(project_id: str,
         *[client.submit(f'Hello World {i}') for i in range(100)]
     )
     try:
-        # await client.worker
         await gathered_tasks
         logger.info('All tasks completed')
-        # await client.submit('Hello World 1')
     except asyncio.CancelledError:
         pass
     except KeyboardInterrupt:
@@ -31,8 +29,6 @@ async def _main(project_id: str,
     except Exception:
         logger.exception('Exception caught on shutdown')
     finally:
-        logging.info('shutting down')
-        # await client.shutdown()
         logging.info('cleaning up')
         await client.cleanup()
         logging.info('exiting')
