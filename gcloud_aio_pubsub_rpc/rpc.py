@@ -253,7 +253,6 @@ class PubSubRPCClient(PubSubRPCBase):
         logger.info('Initializing client inbound subscription')
         default_filter = f"attributes.host_id = \"{self.host_id}\""
 
-        # TODO: Exactly Once Delivery not needed on the client.
         if body is None:
             body = {}
 
