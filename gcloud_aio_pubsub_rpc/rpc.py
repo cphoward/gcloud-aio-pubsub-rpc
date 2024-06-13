@@ -90,6 +90,7 @@ class PubSubRPCBase(ABC):
                 start = asyncio.get_running_loop().time()
                 num_tasks = len(self._consume_tasks)
                 max_messages = CONSUMER_MAX_MESSAGE_REQUEST - num_tasks
+                messages: list[Any] = []
                 if max_messages > 0:
                     try:
                         messages = await self.subscriber.pull(
