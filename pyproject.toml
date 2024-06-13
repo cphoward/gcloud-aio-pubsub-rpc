@@ -1,7 +1,7 @@
 
 [tool.poetry]
 name = "gcloud-aio-pubsub-rpc"
-version = "0.1.0"
+version = "0.1.1"
 description = "Google Cloud Asyncio PubSub RPC uses gcloud-aio-pubsub to deliver remote procedure calls over Google Cloud Platform Pub/Sub."
 
 repository = "https://github.com/cphoward/gcloud-aio-pubsub-rpc"
